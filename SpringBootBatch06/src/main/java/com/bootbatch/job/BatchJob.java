@@ -2,6 +2,8 @@ package com.bootbatch.job;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.sql.DataSource;
 
@@ -36,7 +38,12 @@ public class BatchJob {
     private final StepBuilderFactory stepBuilderFactoy;
     private final InativeStepListner inativeStepListner;
     
-    private Resource outputResource = new FileSystemResource("output/outputData.csv");
+    SimpleDateFormat format1 = new SimpleDateFormat("_yyyyMMdd");
+    Date time = new Date();
+    
+    String time1 = format1.format(time);
+    
+    private Resource outputResource = new FileSystemResource("output/SD"+time1+".csv");
        
     @Autowired
     private DataSource dataSource;

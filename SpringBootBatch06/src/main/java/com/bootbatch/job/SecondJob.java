@@ -1,12 +1,18 @@
 package com.bootbatch.job;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
+import org.springframework.batch.core.job.flow.FlowExecutionStatus;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
@@ -38,13 +44,29 @@ public class SecondJob {
     @Autowired
     private DataSource dataSource;
     
-    private Resource outputResource = new FileSystemResource("output/outputData.csv");
+    SimpleDateFormat format1 = new SimpleDateFormat("_yyyyMMdd");
+    Date time = new Date();
+    
+    String time1 = format1.format(time);
+    
+    private Resource outputResource = new FileSystemResource("output/SD"+time1+".csv");
     
     @Bean
-    public Job jdbcCursorItemReaderJob() throws Exception {
+    public Job jdbcCursorItemReaderJob(Flow incativeJobFlow) throws Exception {
     	return jobBuilderFactory.get("jdbcCursorItemReaderJob")
-    			.start(step1())
+    			.start(incativeJobFlow)
+    			.end()
     			.build();
+    }
+    
+    @Bean 
+    public Flow incativeJobFlow(Step step1) {
+    	FlowBuilder<Flow> flowBuilder = new FlowBuilder<Flow>("incativeJobFlow");
+    	return flowBuilder
+    			.start(new InactiveJobExecutionDecider())
+    			.on(FlowExecutionStatus.FAILED.getName()).end()
+    			.on(FlowExecutionStatus.COMPLETED.getName()).to(step1)
+    			.end();
     }
     
     @Bean
