@@ -11,5 +11,5 @@
 - CSV 파일을 DB로 복사하기전 테이블 초기화 후 DB로 내용 복사
 
 ### Second commit
->CSV파일 생성완료 후 fin 파일 생성
-  >fin 파일 있을 경우 SecondJOb의 step 실행 없을 경우 step 미진행
+> CSV파일 생성완료 후 fin 파일 생성
+  > fin 파일 있을 경우 SecondJOb의 step 실행 없을 경우 step 미진행
