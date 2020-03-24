@@ -10,5 +10,5 @@
 
 ## Second commit
 - CSV파일 생성완료 후 fin 파일 생성
-- fin 파일 있을 경우 SecondJOb의 step 실행 없을 경우 step 미진행
+- fin 파일 있을 경우 SecondJOb의 step 실행 없을 경우 step 미진행<hr/>
 fin 파일이 있다면 step 실행
